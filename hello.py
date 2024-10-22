@@ -75,9 +75,7 @@ def AlvaroFunct(variable):
     form = ArbolinForm()
     if form.validate_on_submit():
         new_variable = form.value.data
-        #recursion chida
         return redirect(url_for('AlvaroFunct', variable=new_variable))
-    #copy paste del codigo 
     return render_template('alvaro.html', variable=variable, form=form)
 
 @app.route('/anaBanana', methods=['GET', 'POST'])
