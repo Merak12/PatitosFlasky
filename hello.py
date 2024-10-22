@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, RadioField, IntegerField
 from wtforms.validators import DataRequired
 
 app = Flask(__name__)
@@ -19,7 +19,11 @@ class NameForm(FlaskForm):
 class ArbolinForm(FlaskForm):
     value = StringField('Cambia tu variable a tres pesos', validators=[DataRequired()])
     submit = SubmitField('Submit')
-    
+
+class IBMForm(FlaskForm):
+    gender = RadioField('¿Cuál es tu género?', choices=[('m','Masculino'), ('f','Femenino'),('o', 'Otro')])
+    height = IntegerField('¿Cuánto mides en centímetros?', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -40,6 +44,23 @@ def index():
         form.name.data = ''
     return render_template('index.html', form=form, name=name)
 
+@app.route('/IBMCalculator', methods=['GET', 'POST'])
+def IBMFunct():
+    form = IBMForm()
+    ibm = None
+    if form.validate_on_submit():
+        gender = form.gender.data
+        height = form.height.data
+        form.gender.data = ''
+        form.height.data = 0
+        if gender == 'm':
+            ibm = 50 + 0.91 * (height - 152.4)
+        elif gender == 'f':
+            ibm = 45.5 + 0.91 * (height - 152.4)
+        else:
+            ibm = "No tengo una fórmula en tu caso"
+    return render_template('IBMCalculator.html', form=form, ibm=ibm)
+
 @app.route('/anaBanana', methods=['GET', 'POST'])
 def AnaFuncc():
     name = None
@@ -47,9 +68,7 @@ def AnaFuncc():
     if form.validate_on_submit():
         name = form.name.data
         form.name.data = ''
-    return render_template('anaBanana.html', form=form, name=name)
-
-    
+    return render_template('anaBanana.html', form=form, name=name)    
 
 @app.route('/arbolin/<variable>', methods=['GET', 'POST'])
 def AlvaroFunct(variable):
@@ -60,8 +79,6 @@ def AlvaroFunct(variable):
         return redirect(url_for('AlvaroFunct', variable=new_variable))
     #copy paste del codigo 
     return render_template('alvaro.html', variable=variable, form=form)
-
-
 
 @app.route('/anaBanana', methods=['GET', 'POST'])
 def AnaFunct():
