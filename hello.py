@@ -17,7 +17,7 @@ class NameForm(FlaskForm):
     submit = SubmitField('Submit')
     
 class ArbolinForm(FlaskForm):
-    name = StringField('Cambia tu variable a tres pesos', validators=[DataRequired()])
+    value = StringField('Cambia tu variable a tres pesos', validators=[DataRequired()])
     submit = SubmitField('Submit')
     
 
@@ -55,7 +55,7 @@ def AnaFuncc():
 def AlvaroFunct(variable):
     form = ArbolinForm()
     if form.validate_on_submit():
-        new_variable = form.name.data
+        new_variable = form.value.data
         #recursion chida
         return redirect(url_for('AlvaroFunct', variable=new_variable))
     #copy paste del codigo 
