@@ -1,9 +1,13 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky - Page Not Found{% endblock %}
+{% block title %}Flasky - Arbolin{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>esto si funciona</h1>
+    <h1>¿Te equivocaste de variable?, no importa, cámbiala aquí</h1>
+    <h1> Elgiste la variable: {% if variable %}{{ variable }}{% else %}no hay variable{% endif %}</h1>
 </div>
+
+{{ wtf.quick_form(form) }}
 {% endblock %}

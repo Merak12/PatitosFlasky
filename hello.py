@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
@@ -15,7 +15,11 @@ moment = Moment(app)
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
-
+    
+class ArbolinForm(FlaskForm):
+    name = StringField('Cambia tu variable a tres pesos', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+    
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -47,9 +51,17 @@ def AnaFuncc():
 
     
 
-@app.route('/arbolin', methods=['GET', 'POST'])
-def AlvaroFunct():
-    return render_template('alvaro.html')
+@app.route('/arbolin/<variable>', methods=['GET', 'POST'])
+def AlvaroFunct(variable):
+    form = ArbolinForm()
+    if form.validate_on_submit():
+        new_variable = form.name.data
+        #recursion chida
+        return redirect(url_for('AlvaroFunct', variable=new_variable))
+    #copy paste del codigo 
+    return render_template('alvaro.html', variable=variable, form=form)
+
+
 
 @app.route('/anaBanana', methods=['GET', 'POST'])
 def AnaFunct():
