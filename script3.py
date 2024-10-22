@@ -1,0 +1,1 @@
+#Escribe un script en python que consulte la API de los casos confirmados de paises y muestre el numero de casos confirmados en méxico al dia de 27 de OCTUBRE de 2021

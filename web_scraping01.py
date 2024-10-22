@@ -4,7 +4,7 @@
 
 import requests
 
-URL = "https://realpython.github.io/fake-jobs/"
+URL = "https://toposfc.org/"
 page = requests.get(URL)
 
 print(page.text)
