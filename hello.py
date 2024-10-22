@@ -35,3 +35,8 @@ def index():
         name = form.name.data
         form.name.data = ''
     return render_template('index.html', form=form, name=name)
+    
+
+@app.route('/arbolin', methods=['GET', 'POST'])
+def AlvaroFunct():
+    return render_template('alvaro.html')
