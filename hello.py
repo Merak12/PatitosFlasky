@@ -40,3 +40,7 @@ def index():
 @app.route('/arbolin', methods=['GET', 'POST'])
 def AlvaroFunct():
     return render_template('alvaro.html')
+
+@app.route('/anaBanana', methods=['GET', 'POST'])
+def AnaFunct():
+    return render_template('anaBanana.html')
