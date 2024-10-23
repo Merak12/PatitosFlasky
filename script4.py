@@ -17,3 +17,4 @@ for episodeTable in episodesTables:
         episodeTitle = episode.find("td", class_="summary")
         print(episodeNumber.text.strip()+" "+episodeTitle.text.strip())
         print()
+        print()
