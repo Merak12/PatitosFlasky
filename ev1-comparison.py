@@ -22,23 +22,32 @@ cinepolisBillboard = requests.get(URLCinepolis)
 soupHoyts = BeautifulSoup(hoytsBillboard.content, "html.parser")
 upcomingHoyts = soupHoyts.find("ul", class_="movies-list")
 moviesHoyts = upcomingHoyts.find_all("div", class_="movies-list__wrapper")
+releaseHoyts = upcomingHoyts.find_all("span", class_="movies-list__release-date")
 
 soupCinepolis = BeautifulSoup(cinepolisBillboard.content, "html.parser")
 upcomingCinepolis = soupCinepolis.find_all("div", class_="listProxEstreno cf")
+releaseCinepolis = soupCinepolis.find_all("div", class_="diaEstreno")
 
-print(color.BOLD + "Cartelera de Hoyts" + color.END)
 for movie in moviesHoyts:
     movie_title = movie.find("a", class_="movies-list__link")
-    if movie_title:  # Ensure the link exists
-        print("Movie Title:",movie_title.text.strip())
+    release_date = movie.find("span", class_="movies-list__release-date")
 
+    if movie_title:
+        movie_title_text = movie_title.text.strip()
+    else:
+        movie_title_text = "Unknown Title"
+
+    if release_date:
+        release_date_text = release_date.text.strip()
+    else:
+        release_date_text = "Release date not available"
+    print(f"Movie Title: {movie_title_text}, Release Date: {release_date_text}")
 print()
+
 print(color.BOLD + "Cartelera de Cinépolis" + color.END)
-for article in upcomingCinepolis:
+for article, release_date in zip(upcomingCinepolis, releaseCinepolis):
     movies = article.find_all("li")
     
     for movie in movies:
         movie_title = movie.find("figcaption")
-        print(f"Movie Title: {movie_title.text.strip()}")
-    
-    print()
+        print(f"Movie Title: {movie_title.text.strip()}, Release Date: {release_date.text.strip()}")
