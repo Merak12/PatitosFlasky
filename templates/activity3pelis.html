@@ -1,0 +1,80 @@
+{% extends "bootstrap/base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Búsqueda de Episodios{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/act3-Wiki">Búsqueda de Episodios</a>
+            
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Búsqueda de Episodios de The Umbrella Academy</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.tipo_busqueda.label(class="form-label") }}
+            <div class="d-flex flex-column">
+                {{ form.tipo_busqueda(class="form-check-input") }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form.palabra_clave.label(class="form-label") }}
+            {{ form.palabra_clave(class="form-control") }}
+            {% for error in form.palabra_clave.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+
+    {% if resultados %}
+        <h3>Resultados de Búsqueda:</h3>
+        <ul>
+        {% for resultado in resultados %}
+            <li>
+                <strong>Número de Episodio:</strong> {{ resultado[0] }}<br>
+                <strong>Título del Episodio:</strong> {{ resultado[1] }}<br>
+                <strong>Número en Temporada:</strong> {{ resultado[2] }}<br>
+                <strong>Director:</strong> {{ resultado[3] }}<br>
+                <strong>Escritor:</strong> {{ resultado[4] }}<br>
+                <strong>Fecha de Lanzamiento:</strong> {{ resultado[5] }}<br>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
