@@ -13,8 +13,8 @@ class color:
     UNDERLINE = '\033[4m'
     END = '\033[0m'
 
-URLCinemex = "https://www.hoyts.com.au/movies/coming-soon"
-hoytsBillboard = requests.get(URLCinemex)
+URLHoyts = "https://www.hoyts.com.au/movies/coming-soon"
+hoytsBillboard = requests.get(URLHoyts)
 
 URLCinepolis = "https://cinepolis.com/proximos-estrenos"
 cinepolisBillboard = requests.get(URLCinepolis)

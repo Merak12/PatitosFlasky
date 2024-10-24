@@ -56,7 +56,7 @@ def buscar_episodio_por_palabra(clave, category):
     resultados = [episodio for episodio in episode_matrix if clave in episodio[category].strip().lower()]
     return resultados  
 
-@app.route('/activity3pelis', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def buscar():
     form = Busqueda() 
     resultados = [] 
