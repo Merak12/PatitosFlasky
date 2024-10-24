@@ -14,7 +14,14 @@ for episodeTable in episodesTables:
         episodeNumber = episode.find("th", scope="row")
         episodeTitle = episode.find("td", class_="summary")
         episodeInfo = episode.find_all("td", style="text-align:center")
-        print("Episode Number: "+episodeNumber.text.strip()+", Episode Title: "+episodeTitle.text.strip())
-        print()
-        print("Episode Info: ", episodeInfo[2])
+        episodeInSeason = episodeInfo[0]
+        episodeDirector = episodeInfo[1]
+        episodeWriter = episodeInfo[2]
+        episodeRelease = episodeInfo[3]
+        print("Episode Number: "+episodeNumber.text.strip())
+        print("Episode Title: "+episodeTitle.text.strip())
+        print("Episode Number in Season: ", episodeInSeason.text.strip())
+        print("Episode Director: ", episodeDirector.text.strip())
+        print("Episode Writer: ", episodeWriter.text.strip())
+        print("Episode Release Date: ", episodeRelease.text.strip())
         print()
