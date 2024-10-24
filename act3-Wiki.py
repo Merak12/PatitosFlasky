@@ -13,6 +13,8 @@ for episodeTable in episodesTables:
     for episode in episodeRows:
         episodeNumber = episode.find("th", scope="row")
         episodeTitle = episode.find("td", class_="summary")
+        episodeInfo = episode.find_all("td", style="text-align:center")
         print("Episode Number: "+episodeNumber.text.strip()+", Episode Title: "+episodeTitle.text.strip())
         print()
+        print("Episode Info: ", episodeInfo[2])
         print()

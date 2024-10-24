@@ -14,7 +14,6 @@ response_json = response.json()
 
 country_data = response_json[0]  
 
-
 cases = country_data['cases']
 
 date = cases['2021-10-27']
