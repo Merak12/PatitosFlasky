@@ -1,10 +1,19 @@
+from flask import Flask, render_template, redirect, url_for, request
 import requests
 from bs4 import BeautifulSoup
 import numpy as np
 import numpy as np
 from datetime import datetime
 import locale
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'hard to guess string'
+
+bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 current_year = datetime.now().year
 
@@ -38,7 +47,6 @@ def convertir_fecha_cinepolis(fecha_str):
             return "Formato desconocido"
     
     return fecha_obj.strftime('%Y-%m-%d')
-
 
 
 movies_info_cinepolis = []
@@ -88,8 +96,6 @@ for movie in moviesHoyts:
     movies_info_ahoy.append([movie_title.text.strip(), release_date.text.strip()])
     
 
-    
-print()
 
 for article, release_date in zip(upcomingCinepolis, releaseCinepolis):
     movies = article.find_all("li")
@@ -112,13 +118,13 @@ for i in range(len(cinepolis)):
     cinepolis[i, 1] = convertir_fecha_cinepolis(cinepolis[i, 1])  
 
 
-print(color.BOLD + "Cartelera de Ahoy" + color.END)
+#print(color.BOLD + "Cartelera de Ahoy" + color.END)
 
-print(ahoy)
+#print(ahoy)
 
-print(color.BOLD + "Cartelera de Cinépolis" + color.END)
+#print(color.BOLD + "Cartelera de Cinépolis" + color.END)
 
-print(cinepolis)
+#print(cinepolis)
 
 
 
@@ -126,36 +132,69 @@ print(cinepolis)
 #de aqui le puedes mover xd
 
 
-fecha = "2024-10-31"
-nombre = "Golpe de Suerte en París"
+@app.route('/', methods=['GET', 'POST'])
+def indexx():
+    if request.method == 'POST':
+        search_type = request.form['search_type']
+        search_value = request.form['search_value']
+        
+        results_ahoy = []
+        results_cinepolis = []
+    
+        if search_type == "name":
+            for i in range(len(ahoy)):
+                if search_value.lower() in ahoy[i][0].lower():
+                    results_ahoy.append(ahoy[i])
+            for i in range(len(cinepolis)):
+                if search_value.lower() in cinepolis[i][0].lower():
+                    results_cinepolis.append(cinepolis[i])
+        elif search_type == "date":
+            for i in range(len(ahoy)):
+                if search_value == ahoy[i][1]:
+                    results_ahoy.append(ahoy[i])
+            for i in range(len(cinepolis)):
+                if search_value == cinepolis[i][1]:
+                    results_cinepolis.append(cinepolis[i])
+                
+        return render_template('evidence.html', ahoy=results_ahoy, cinepolis=results_cinepolis)
+
+    return render_template('evidence.html', ahoy=[], cinepolis=[])
 
 
-print("ahoys fechas: ")
+if __name__ == '__main__':
+    app.run(debug=True)
+            
+            
+#fecha = "2024-10-31"
+#nombre = "Golpe de Suerte en París"
 
-for i in range(len(ahoy)):
-    if fecha == ahoy[i][1]: #se cambia por 0 para nombre
-        print(ahoy[i][0])
-        
-        
-print("cinepolis fechas: ")
-for i in range(len(cinepolis)):
-    if fecha == cinepolis[i][1]:
-        print(cinepolis[i][0])
-        
-        
-print("ahoys nombres: ")
 
-for i in range(len(ahoy)):
-    if nombre == ahoy[i][0]: #se cambia por 0 para nombre
-        print(ahoy[i][0])
+# print("ahoys fechas: ")
+
+# for i in range(len(ahoy)):
+#     if fecha == ahoy[i][1]: #se cambia por 0 para nombre
+#         print(ahoy[i][0])
         
         
-print("cinepolis nombres: ")
-for i in range(len(cinepolis)):
-    if nombre == cinepolis[i][0]:
-        print(cinepolis[i][0])
+# print("cinepolis fechas: ")
+# for i in range(len(cinepolis)):
+#     if fecha == cinepolis[i][1]:
+#         print(cinepolis[i][0])
         
-print("borrar esto")
+        
+# print("ahoys nombres: ")
+
+# for i in range(len(ahoy)):
+#     if nombre == ahoy[i][0]: #se cambia por 0 para nombre
+#         print(ahoy[i][0])
+        
+        
+# print("cinepolis nombres: ")
+# for i in range(len(cinepolis)):
+#     if nombre == cinepolis[i][0]:
+#         print(cinepolis[i][0])
+        
+# print("borrar esto")
         
 
 

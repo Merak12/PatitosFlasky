@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Movie Search</h1>
+        
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label for="search_type">Search by:</label>
+                <select id="search_type" name="search_type" class="form-control">
+                    <option value="name">Name</option>
+                    <option value="date">Date</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="search_value">Search Value:</label>
+                <input type="text" id="search_value" name="search_value" class="form-control" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <h2 class="mt-5">Results from Hoyts:</h2>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Movie Title</th>
+                    <th>Release Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if ahoy %}
+                    {% for movie in ahoy %}
+                    <tr>
+                        <td>{{ movie[0] }}</td>
+                        <td>{{ movie[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="2" class="text-center">No results found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <h2 class="mt-5">Results from Cinepolis:</h2>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Movie Title</th>
+                    <th>Release Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if cinepolis %}
+                    {% for movie in cinepolis %}
+                    <tr>
+                        <td>{{ movie[0] }}</td>
+                        <td>{{ movie[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="2" class="text-center">No results found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
